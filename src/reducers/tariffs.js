@@ -12,7 +12,10 @@ const initialState = {
     },
   ],
   current: TARIFF.S,
-  options: false,
+  options: {
+    visible: true,
+    selectedIP: false,
+  },
 }
 
 function reducer(state = initialState, action) {
@@ -21,10 +24,24 @@ function reducer(state = initialState, action) {
       return { ...state }
     case TARIFF__SET:
       if (action.data === TARIFF.L) {
-        return { ...state, current: action.data, options: true }
+        return {
+          ...state,
+          current: action.data,
+          options: {
+            visible: false,
+            selectedIP: false,
+          },
+        }
       }
 
-      return { ...state, current: action.data, options: false }
+      return {
+        ...state,
+        current: action.data,
+        options: {
+          visible: true,
+          selectedIP: false,
+        },
+      }
     default:
       return state
   }

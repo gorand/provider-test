@@ -1,20 +1,26 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { setTariff } from 'actions';
+import { setTariff, enableIP } from 'actions'
 
 import styles from './App.module.css'
 import Options from 'components/Options'
 import Invoice from 'components/Invoice'
 
-function App({ tariffs, selected, changeTariff, options }) {
+function App({ tariffs, selected, changeTariff, changeIP, options }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.leftColumn}>
-        <Options onChange={changeTariff} radioOptions={tariffs} selected={selected} hasMore={options} />
+        <Options
+          onChange={changeTariff}
+          onChangeIP={changeIP}
+          radioOptions={tariffs}
+          selected={selected}
+          hasMore={!options.visible}
+        />
       </div>
       <div className={styles.rightColumn}>
-        <Invoice tarrif={null} />
+        <Invoice tariff={tariffs[selected]} />
       </div>
     </div>
   )
@@ -28,6 +34,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   changeTariff: data => dispatch(setTariff(data)),
+  changeIP: () => dispatch(enableIP()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)

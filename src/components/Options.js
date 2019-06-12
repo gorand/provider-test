@@ -16,6 +16,7 @@ const Options = props => {
             <Fragment>
               <Title title="Выберите дополнительные опции" />
               <Checkbox
+                onChange={props.onChangeIP}
                 editable={true}
                 name="Подключение статического IP-адреса"
                 amount={145.5}
