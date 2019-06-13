@@ -47,3 +47,23 @@ table {
   background-color: #fff;
   border-radius: 5px;
 }
+
+@media (max-width: 540px) {
+  .wrapper {
+    box-sizing: border-box;
+    flex-direction: column;
+    padding: 12px;
+    width: 100%;
+  }
+  
+  .leftColumn {
+    flex-basis: auto;
+    margin: 0 auto 12px;
+  }
+  
+  .rightColumn {
+    flex-basis: auto;
+    width: 100%;
+    background-color: #f7f7f7;
+  }
+}

@@ -44,3 +44,9 @@
 .input {
   margin-right: 8px;
 }
+
+@media (max-width: 540px) {
+  .field {
+    white-space: unset;
+  }
+}

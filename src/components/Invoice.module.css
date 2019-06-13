@@ -35,3 +35,10 @@
   white-space: nowrap;
   padding-left: 20px;
 }
+
+@media (max-width: 540px) {
+  .bottomBlock {
+    padding: 18px 12px;
+    background-color: #fff;
+  }
+}
