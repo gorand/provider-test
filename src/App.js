@@ -1,13 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { setTariff, enableIP } from 'actions'
+import { setTariff, toggleIP } from 'actions'
 
 import styles from './App.module.css'
 import Options from 'components/Options'
 import Invoice from 'components/Invoice'
 
-function App({ tariffs, selected, changeTariff, changeIP, options }) {
+function App(props) {
+  const { tariffs, selected, changeTariff, changeIP, options } = props;
+  console.log("TCL: App -> staticIP", props)
   return (
     <div className={styles.wrapper}>
       <div className={styles.leftColumn}>
@@ -16,11 +18,11 @@ function App({ tariffs, selected, changeTariff, changeIP, options }) {
           onChangeIP={changeIP}
           radioOptions={tariffs}
           selected={selected}
-          hasMore={!options.visible}
+          options={options}
         />
       </div>
       <div className={styles.rightColumn}>
-        <Invoice tariff={tariffs[selected]} />
+        <Invoice tariff={tariffs[selected]} options={options} />
       </div>
     </div>
   )
@@ -34,7 +36,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   changeTariff: data => dispatch(setTariff(data)),
-  changeIP: () => dispatch(enableIP()),
+  changeIP: () => dispatch(toggleIP()),
 })
 
 export default connect(

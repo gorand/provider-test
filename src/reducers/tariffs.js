@@ -1,5 +1,5 @@
 import { TARIFF } from 'consts'
-import { TARIFFS__FETCH, TARIFF__SET } from 'actions'
+import { TARIFFS__FETCH, TARIFF__SET, TARIFF__TOGGLE_IP } from 'actions'
 
 const initialState = {
   list: [
@@ -13,7 +13,11 @@ const initialState = {
   ],
   current: TARIFF.S,
   options: {
-    visible: true,
+    staticIP: {
+      include: { name: 'Подключение статического IP-адреса', amount: 147.6, caption: 'руб.' },
+      fee: { name: 'Абонентская плата за статический IP-адрес', amount: 92, caption: 'руб./мес.' },
+    },
+    enebled: true,
     selectedIP: false,
   },
 }
@@ -28,8 +32,8 @@ function reducer(state = initialState, action) {
           ...state,
           current: action.data,
           options: {
-            visible: false,
-            selectedIP: false,
+            ...state.options,
+            enebled: false,
           },
         }
       }
@@ -38,8 +42,17 @@ function reducer(state = initialState, action) {
         ...state,
         current: action.data,
         options: {
-          visible: true,
-          selectedIP: false,
+          ...state.options,
+          enebled: true,
+        },
+      }
+    case TARIFF__TOGGLE_IP:
+      return {
+        ...state,
+        options: {
+          ...state.options,
+          enebled: true,
+          selectedIP: !state.options.selectedIP,
         },
       }
     default:

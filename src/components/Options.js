@@ -6,29 +6,31 @@ import RadioButton from './RadioButton'
 import Checkbox from './Checkbox'
 
 const Options = props => {
+  const { options, options: { selectedIP, staticIP }, onChangeIP } = props;
+
   return (
     <div className={styles.wrapper}>
       <table className={tableStyles.table}>
         <tbody>
           <Title title="Выберите тариф" />
           <RadioButton {...props} />
-          {!props.hasMore && (
+          {options.enebled && (
             <Fragment>
               <Title title="Выберите дополнительные опции" />
               <Checkbox
-                onChange={props.onChangeIP}
+                onChange={onChangeIP}
                 editable={true}
                 name="Подключение статического IP-адреса"
-                amount={145.5}
-                caption="руб."
-                checked={true}
+                amount={staticIP.include.amount}
+                caption={staticIP.include.caption}
+                checked={selectedIP}
               />
               <Checkbox
                 editable={false}
                 name="Абонентская плата за статический IP-адрес"
-                amount={92}
-                caption="руб./мес."
-                checked={true}
+                amount={staticIP.fee.amount}
+                caption={staticIP.fee.caption}
+                checked={selectedIP}
               />
             </Fragment>
           )}

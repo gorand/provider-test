@@ -2,12 +2,20 @@ import React, { Fragment } from 'react'
 import cn from 'classnames'
 import styles from './Invoice.module.css'
 
-const rows = [
-  { name: 'Подключение статического IP-адреса', price: '147.6 руб.' },
-  { name: 'Абонентская плата за статический IP-адрес', price: '92 руб./мес.' },
-]
+const Invoice = props => {
+  const {
+    tariff,
+    options: { enebled, staticIP, selectedIP },
+  } = props
 
-const Invoice = ({ tariff }) => {
+  const calcMonthlyPayment = () => {
+    const fee = selectedIP ? staticIP.fee.amount : 0;
+
+    return Math.round(tariff.amount + fee);
+  }
+  const monthlyPayment = calcMonthlyPayment();
+  const annualPayment = monthlyPayment * 12;
+
   return (
     <Fragment>
       <div className={styles.topBlock}>
@@ -18,26 +26,42 @@ const Invoice = ({ tariff }) => {
             {tariff.amount} {tariff.caption}
           </span>
         </div>
-        {rows.map(row => (
-          <div key={row.name} className={styles.row}>
-            <span className={styles.rowLeft}>{row.name}</span>
-            <span className={styles.rowRight}>{row.price}</span>
-          </div>
-        ))}
+        {selectedIP && enebled && (
+          <Fragment>
+            <div className={styles.row}>
+              <span className={styles.rowLeft}>{staticIP.include.name}</span>
+              <span className={styles.rowRight}>
+                {staticIP.include.amount} {staticIP.include.caption}
+              </span>
+            </div>
+            <div className={styles.row}>
+              <span className={styles.rowLeft}>{staticIP.fee.name}</span>
+              <span className={styles.rowRight}>
+                {staticIP.fee.amount} {staticIP.fee.caption}
+              </span>
+            </div>
+          </Fragment>
+        )}
       </div>
       <div className={styles.bottomBlock}>
         <div className={styles.title}>Итого</div>
-        <div className={cn(styles.row, styles.boldRow)}>
-          <span className={styles.rowLeft}>Плата за подключение</span>
-          <span className={styles.rowRight}>147.6 руб.</span>
-        </div>
+        {enebled && (
+          <div className={cn(styles.row, styles.boldRow)}>
+            {selectedIP && (
+              <Fragment>
+                <span className={styles.rowLeft}>Плата за подключение</span>
+                <span className={styles.rowRight}>{staticIP.include.amount} {staticIP.include.caption}</span>
+              </Fragment>
+            )}
+          </div>
+        )}
         <div className={cn(styles.row, styles.boldRow)}>
           <span className={styles.rowLeft}>Ежемесячный платеж</span>
-          <span className={styles.rowRight}>1 092 руб.</span>
+          <span className={styles.rowRight}>{monthlyPayment} руб.</span>
         </div>
         <div className={cn(styles.row, styles.boldRow)}>
           <span className={styles.rowLeft}>Ежегодный платеж</span>
-          <span className={styles.rowRight}>13 104 руб.</span>
+          <span className={styles.rowRight}>{annualPayment} руб.</span>
         </div>
       </div>
     </Fragment>
