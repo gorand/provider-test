@@ -9,12 +9,16 @@ const Invoice = props => {
   } = props
 
   const calcMonthlyPayment = () => {
-    const fee = selectedIP ? staticIP.fee.amount : 0;
+    const fee = selectedIP ? staticIP.fee.amount : 0
 
-    return Math.round(tariff.amount + fee);
+    if (staticIP.ignored) {
+      return tariff.amount
+    }
+
+    return Math.round(tariff.amount + fee)
   }
-  const monthlyPayment = calcMonthlyPayment();
-  const annualPayment = monthlyPayment * 12;
+  const monthlyPayment = calcMonthlyPayment()
+  const annualPayment = monthlyPayment * 12
 
   return (
     <Fragment>
@@ -50,7 +54,9 @@ const Invoice = props => {
             {selectedIP && (
               <Fragment>
                 <span className={styles.rowLeft}>Плата за подключение</span>
-                <span className={styles.rowRight}>{staticIP.include.amount} {staticIP.include.caption}</span>
+                <span className={styles.rowRight}>
+                  {staticIP.include.amount} {staticIP.include.caption}
+                </span>
               </Fragment>
             )}
           </div>

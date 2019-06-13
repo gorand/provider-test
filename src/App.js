@@ -1,15 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { setTariff, toggleIP } from 'actions'
+import { fetchTariffs, setTariff, toggleIP } from 'actions'
 
 import styles from './App.module.css'
 import Options from 'components/Options'
 import Invoice from 'components/Invoice'
 
 function App(props) {
-  const { tariffs, selected, changeTariff, changeIP, options } = props;
-  console.log("TCL: App -> staticIP", props)
+  const {
+    tariffs,
+    selected,
+    options,
+    changeTariff,
+    fetchTariffs,
+    changeIP,
+  } = props
+
+  useEffect(() => {
+    fetchTariffs()
+  }, [fetchTariffs])
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.leftColumn}>
@@ -35,6 +46,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  fetchTariffs: () => dispatch(fetchTariffs()),
   changeTariff: data => dispatch(setTariff(data)),
   changeIP: () => dispatch(toggleIP()),
 })

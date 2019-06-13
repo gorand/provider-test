@@ -1,5 +1,5 @@
-import { TARIFF } from 'consts'
-import { TARIFFS__FETCH, TARIFF__SET, TARIFF__TOGGLE_IP } from 'actions'
+import { TARIFF_TYPE } from 'consts'
+import { TARIFFS } from 'actions'
 
 const initialState = {
   list: [
@@ -11,11 +11,20 @@ const initialState = {
       caption: 'руб./мес.',
     },
   ],
-  current: TARIFF.S,
+  current: TARIFF_TYPE.S,
   options: {
     staticIP: {
-      include: { name: 'Подключение статического IP-адреса', amount: 147.6, caption: 'руб.' },
-      fee: { name: 'Абонентская плата за статический IP-адрес', amount: 92, caption: 'руб./мес.' },
+      include: {
+        name: 'Подключение статического IP-адреса',
+        amount: 147.6,
+        caption: 'руб.',
+      },
+      fee: {
+        name: 'Абонентская плата за статический IP-адрес',
+        amount: 92,
+        caption: 'руб./мес.',
+      },
+      ignored: false,
     },
     enebled: true,
     selectedIP: false,
@@ -24,16 +33,20 @@ const initialState = {
 
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case TARIFFS__FETCH:
-      return { ...state }
-    case TARIFF__SET:
-      if (action.data === TARIFF.L) {
+    case TARIFFS.FETCH_ALL:
+      return state
+    case TARIFFS.SET_TARIFF:
+      if (action.data === TARIFF_TYPE.L) {
         return {
           ...state,
           current: action.data,
           options: {
             ...state.options,
             enebled: false,
+            staticIP: {
+              ...state.options.staticIP,
+              ignored: true,
+            },
           },
         }
       }
@@ -44,14 +57,17 @@ function reducer(state = initialState, action) {
         options: {
           ...state.options,
           enebled: true,
+          staticIP: {
+            ...state.options.staticIP,
+            ignored: false,
+          },
         },
       }
-    case TARIFF__TOGGLE_IP:
+    case TARIFFS.TOGGLE_IP:
       return {
         ...state,
         options: {
           ...state.options,
-          enebled: true,
           selectedIP: !state.options.selectedIP,
         },
       }

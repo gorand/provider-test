@@ -1,1 +1,1 @@
-export * from './tariffs';
+export * from './tariffs'
