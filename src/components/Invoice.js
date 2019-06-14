@@ -7,7 +7,6 @@ const Invoice = props => {
     tariff,
     options: { enebled, staticIP, selectedIP },
   } = props
-
   const calcMonthlyPayment = () => {
     const fee = selectedIP ? staticIP.fee.amount : 0
 

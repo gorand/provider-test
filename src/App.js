@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-
 import { fetchTariffs, setTariff, toggleIP } from 'actions'
-
 import styles from './App.module.css'
 import Options from 'components/Options'
 import Invoice from 'components/Invoice'

@@ -5,8 +5,8 @@ import tableStyles from './Table.module.css'
 import Price from 'components/Price'
 
 const RadioButton = props => {
-  const { radioOptions, onChange, selected } = props;
-  const handleTariffChange = ({ target }) => onChange(parseInt(target.value));
+  const { radioOptions, onChange, selected } = props
+  const handleTariffChange = ({ target }) => onChange(parseInt(target.value))
 
   return (
     <Fragment>

@@ -4,7 +4,7 @@ import tableStyles from './Table.module.css'
 import Price from './Price'
 
 const Checkbox = props => {
-  const { editable, name, amount, caption, checked, onChange } = props;
+  const { editable, name, amount, caption, checked, onChange } = props
 
   return (
     <tr>
